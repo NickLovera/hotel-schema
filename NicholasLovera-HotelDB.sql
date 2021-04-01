@@ -53,13 +53,15 @@ CREATE TABLE  `Address`(
 );
 
 CREATE TABLE `Reservation` (
-    `ReservationId` INT primary key,
+    `ReservationId` INT AUTO_INCREMENT,
 	`RoomNum` SMALLINT not null,
 	`GuestID` INT not null,
    `Adults` SMALLINT not null,
 	`Children` SMALLINT,
 	`StartDate` DATE not null,
-	`EndDate` DATE not null
+	`EndDate` DATE not null,
+    `Total_Room_Cost` DECIMAL (10,2),
+    PRIMARY KEY(`ReservationID`)
 );
 
 
@@ -72,9 +74,9 @@ ADD CONSTRAINT FK_RoomNum FOREIGN KEY (RoomNum) REFERENCES Room(RoomNum);
  ALTER TABLE RoomAmenity
  ADD CONSTRAINT FK_AmenityID FOREIGN KEY (AmenityID) REFERENCES Amenity(AmenityID);
 
-ALTER TABLE `Reservation`
-ADD CONSTRAINT `FK_Reservation_1` FOREIGN KEY (`RoomNum`) REFERENCES `Room`(`RoomNum`),
-ADD CONSTRAINT `FK_Reservation_2` FOREIGN KEY (`GuestID`) REFERENCES `Guest`(`GuestId`);
+ALTER TABLE Reservation
+ADD CONSTRAINT FK_Reservation_1 FOREIGN KEY (RoomNum) REFERENCES Room(RoomNum),
+ADD CONSTRAINT FK_Reservation_2 FOREIGN KEY (GuestID) REFERENCES Guest(GuestId) ON UPDATE CASCADE;
 
-ALTER TABLE `Guest`
-ADD  CONSTRAINT `guest_ibfk_1` FOREIGN KEY (`AddressID`) REFERENCES `Address` (`AddressID`);
+ALTER TABLE Guest
+ADD  CONSTRAINT guest_ibfk_1 FOREIGN KEY (AddressID) REFERENCES Address (AddressID) ON DELETE CASCADE;
